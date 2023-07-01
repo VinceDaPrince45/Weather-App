@@ -110,13 +110,23 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 
 /***/ }),
 
+/***/ "./src/data.js":
+/*!*********************!*\
+  !*** ./src/data.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getCurrentWeather: () => (/* binding */ getCurrentWeather),\n/* harmony export */   getForecast: () => (/* binding */ getForecast),\n/* harmony export */   getSearch: () => (/* binding */ getSearch)\n/* harmony export */ });\n// functions to fetch data from weather api\n\nconst baseURL = 'https://api.weatherapi.com/v1';\nconst key = '2b93e0b7f93640cbace163743233006';\n\n// https://api.weatherapi.com/v1/current.json?key=11111111111111111&q=london\n\nasync function getCurrentWeather(location) {\n    try {\n        const response = await fetch(baseURL + '/current.json?key=' + key + '&q=' + String(location), {mode:'cors'});\n        const data = await response.json();\n        console.log(data);\n    } catch (error) {\n        console.log(error)\n    }\n}\n\nasync function getForecast(location) {\n    try {\n        const response = await fetch(baseURL + '/forecast.json?key=' + key + '&q=' + String(location), {mode:'cors'});\n        const data = await response.json();\n        console.log(data);\n    } catch (error) {\n        console.log(error)\n    }\n}\n\nasync function getSearch(location) {\n    try {\n        const response = await fetch(baseURL + '/search.json?key=' + key + '&q=' + String(location), {mode:'cors'});\n        const data = await response.json();\n        console.log(data);\n    } catch (error) {\n        console.log(error)\n    }\n}\n\n\n//# sourceURL=webpack://weather-app/./src/data.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ \"./src/data.js\");\n\n\n\n\n\n(0,_data__WEBPACK_IMPORTED_MODULE_1__.getCurrentWeather)('London');\n(0,_data__WEBPACK_IMPORTED_MODULE_1__.getForecast)('london');\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
 
 /***/ })
 

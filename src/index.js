@@ -1,7 +1,4 @@
 import './style.css';
-import { getCurrentWeather, getForecast, getSearch } from './data';
+import { getForecast, extractCurrentWeather } from './data';
 
-
-
-getCurrentWeather('London');
-getForecast('london');
+extractCurrentWeather('houston')

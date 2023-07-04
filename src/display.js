@@ -1,3 +1,5 @@
+import { extractWeather } from './data';
+
 // change display based on events and asynchronous functions from data.js
 
 // pressing search removes all content from divs and refreshes with new data

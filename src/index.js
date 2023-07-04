@@ -1,4 +1,4 @@
 import './style.css';
-import { getForecast, extractCurrentWeather } from './data';
+import { extractWeather } from './data';
 
-extractCurrentWeather('houston')
+console.log(extractWeather('houston'));

@@ -1,4 +1,6 @@
 import './style.css';
 import { extractWeather } from './data';
+import { updateDisplay } from './display';
 
-console.log(extractWeather('houston'));
+
+updateDisplay();

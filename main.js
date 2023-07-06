@@ -120,13 +120,23 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./src/display.js":
+/*!************************!*\
+  !*** ./src/display.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   updateDisplay: () => (/* binding */ updateDisplay)\n/* harmony export */ });\n/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ \"./src/data.js\");\n\n\n// change display based on events and asynchronous functions from data.js\n\nfunction updateDisplay() {\n    const submitBtn = document.querySelector('.searchbar > button');\n    submitBtn.addEventListener('click', (e) => {\n        const location = document.querySelector('input.searchbar');\n        console.log((0,_data__WEBPACK_IMPORTED_MODULE_0__.extractWeather)(location.value));\n\n        // when pressing submit, set textcontent of all divs to none and update with data\n    })\n}\n\n// pressing search removes all content from divs and refreshes with new data\n\n// pressing weekly or hourly changes bottom data to whatever\n\n// hourly data is displayed for next 24 hours\n\n// button to switch between fahrenheit and celsius\n\n//# sourceURL=webpack://weather-app/./src/display.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ \"./src/data.js\");\n\n\n\nconsole.log((0,_data__WEBPACK_IMPORTED_MODULE_1__.extractWeather)('houston'));\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ \"./src/data.js\");\n/* harmony import */ var _display__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./display */ \"./src/display.js\");\n\n\n\n\n\n(0,_display__WEBPACK_IMPORTED_MODULE_2__.updateDisplay)();\n\n//# sourceURL=webpack://weather-app/./src/index.js?");
 
 /***/ })
 

@@ -5,7 +5,7 @@ import { extractWeather } from './data';
 const submitBtn = document.querySelector('.searchbar > button');
 const location = document.querySelector('input.searchbar');
 const mainContainer = document.querySelector('#main');
-const todayInfo = document.querySelector('.todayInfo');
+const todayInfo = document.querySelector('.todayinfo');
 const moreInfo = document.querySelector('.moreInfo');
 const hoursBtn = document.querySelector('button.hour');
 const weekBtn = document.querySelector('button.week');
@@ -13,7 +13,6 @@ const body = document.querySelector('body');
 const weekForecast = document.querySelector('div.week');
 const hourForecast = document.querySelector('div.hour');
 let data;
-let copyData;
 const iconList = [
 	{
 		"code" : 1000,
@@ -310,15 +309,18 @@ export function updateDisplay() {
 		data = extractWeather(location.value);
 		var fileInterval = setInterval(function() {
 			if (typeof data.currentData.condition !== 'undefined') {
-				copyData = data;
-				console.log(copyData)
+				clearAll()
+				// determine whats active and displayHours or displayWeek
+				displayHours(data.forecastHour);
+				displayMain(data.currentData);
 				clearInterval(fileInterval)
+
 			} else {console.log('waiting')}
 		},100)
+
         // when pressing submit, set textcontent of all divs to none and update with data
         // look at which tabs are active as well
 
-		// displayHours(data.forecastHour)
     })
     body.addEventListener('click', (e) => {
         activeTab(e);
@@ -334,6 +336,9 @@ function clearAll() {
             div.textContent = '';
         }
     }
+	weekForecast.textContent = '';
+	hourForecast.textContent = '';
+	todayInfo.textContent = '';
 }
 
 // pressing weekly or hourly changes bottom data to whatever // add active class
@@ -354,22 +359,38 @@ function activeTab(e) {
 // hourly data is displayed for next 24 hours
 
 function displayHours(array) {
-    for (let i=0;i <= array.length;i++) {
-        console.log(array[i]);
-        console.log(Object.keys(array[i]))
-        // const container = document.createElement('div');
-        // const hour = document.createElement('div');
-        // hour.classList.add('hour');
-        // const time = document.createElement('div');
-        // time.textContent = array[i].time;
-        // const temperature = document.createElement('div');
-        // temperature.textContent = `Temp C: ${array[i].tempc} / Temp F: ${array[i].tempf}`;
-        // const icon = document.createElement('div');
-        // icon.textContent = 'Code number is ',String(array[i].icon);
-        // hour.append(time,temperature,icon)
-        // hour.style.cssText = 'display:grid;grid-template-rows:auto;grid-template;column;1';
-        // hourForecast.appendChild(hour);
+    for (let i=0;i < array.length;i++) {
+        const hour = document.createElement('div');
+        hour.classList.add('hour');
+        const time = document.createElement('div');
+        time.textContent = array[i].time;
+        const temperature = document.createElement('div');
+        temperature.textContent = `Temp C: ${array[i].tempc} / Temp F: ${array[i].tempf}`;
+        const icon = document.createElement('div');
+		let string = array[i].code.toString();
+		let concatenated = 'Code number is ' + string;
+        icon.textContent = concatenated
+        hour.append(time,temperature,icon)
+        hour.style.cssText = 'display:grid;grid-template-rows:auto;grid-template;column;1;border:1px solid black';
+        hourForecast.appendChild(hour);
     }
 }
 
+function displayMain(object) {
+	const todayContainer = document.createElement('div');
+	todayContainer.classList.add('today');
+	const currentCondition = document.createElement('div');
+	currentCondition.textContent = object.condition;
+	const location = document.createElement('div');
+	location.textContent = object.location;
+	const currentTemp = document.createElement('div');
+	currentTemp.textContent = 'Temperature F: ' + object.actualTempF.toString();
+	const currentIcon = document.createElement('div');
+	currentIcon.textContent = object.code.toString();
+	
+	todayContainer.append(currentCondition,location,currentTemp,currentIcon);
+	todayContainer.style.cssText = 'display:grid;grid-template-columns:1;border:1px solid black';
+
+	todayInfo.appendChild(todayContainer);
+}	
 // button to switch between fahrenheit and celsius

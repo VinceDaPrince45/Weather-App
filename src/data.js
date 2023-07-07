@@ -16,7 +16,8 @@ export function extractWeather(location) {
     const allData = {
         currentData,forecastDays,forecastHour
     };
-    const promise = getForecast(location).then(
+    const promise = getForecast(location)
+    .then(
         response => {
             currentData.condition = response.current.condition.text;
             currentData.actualTempF = response.current.temp_f;
@@ -56,7 +57,11 @@ export function extractWeather(location) {
                 dayCounter += 1;
             }
         }
-    );
+    )
+    .catch(err => {
+        throw new Error('spelled wrong')
+    });
+
     // return object of data to access
     return allData;
 }

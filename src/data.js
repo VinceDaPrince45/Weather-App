@@ -18,6 +18,7 @@ export function extractWeather(location) {
     };
     const promise = getForecast(location).then(
         response => {
+            console.log(response)
             currentData.condition = response.current.condition.text;
             currentData.actualTempF = response.current.temp_f;
             currentData.actualTempC = response.current.temp_c;
@@ -34,12 +35,14 @@ export function extractWeather(location) {
             currentData.windkph = response.current.wind_kph;
             currentData.windmph = response.current.wind_mph;
             currentData.cloud = response.current.cloud;
+            currentData.code = response.current.condition.code;
 
             let dayCounter = 0;
             for (const day of response.forecast.forecastday) {
                 forecastDays[dayCounter].condition = day.day.condition.text;
                 forecastDays[dayCounter].maxtempc = day.day.maxtemp_c;
                 forecastDays[dayCounter].maxtempf = day.day.maxtemp_f;
+                forecastDays[dayCounter].code = day.day.condition.code;
                 if (day.date == currentData.date) {
                     let hourCounter = 0;
                     for (const hour of day.hour) {
@@ -47,6 +50,7 @@ export function extractWeather(location) {
                         forecastHour[hourCounter].tempc = hour.temp_c;
                         forecastHour[hourCounter].tempf = hour.temp_f;
                         forecastHour[hourCounter].condition = hour.condition.text;
+                        forecastHour[hourCounter].code = hour.condition.code;
                         hourCounter += 1;
                     }
                 }

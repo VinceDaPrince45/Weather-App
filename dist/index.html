@@ -8,22 +8,22 @@
     <script src="./main.js" defer></script>
 </head>
 <body>
-    <div class="main">
-        <div class="todayinfo"></div>
-        <div class="searchbar">
+    <div id="main">
+        <div class="todayinfo main"></div>
+        <div class="searchbar main">
             <label for="searchbar">Search Location: </label>
             <input type="text" class="searchbar" id="searchbar">
             <button type="submit">Submit</button>
         </div>
-        <div class="moreinfo"></div>
+        <div class="moreinfo main"></div>
     </div>
-    <div class="forecast">
-        <div class="choices">
+    <div id="forecast">
+        <div class="choices forecast">
             <button class="hour">Hours</button>
             <button class="week">Week</button>
         </div>
-        <div class="week"></div>
-        <div class="hour"></div>
+        <div class="week forecast"></div>
+        <div class="hour forecast"></div>
     </div>
 </body>
 </html>

@@ -13,6 +13,7 @@ const body = document.querySelector('body');
 const weekForecast = document.querySelector('div.week');
 const hourForecast = document.querySelector('div.hour');
 let data;
+let copyData;
 const iconList = [
 	{
 		"code" : 1000,
@@ -306,12 +307,18 @@ const iconList = [
 
 export function updateDisplay() {
     submitBtn.addEventListener('click', (e) => {
-        data = extractWeather(location.value);
-        console.log(data)
-        clearAll();
+		data = extractWeather(location.value);
+		var fileInterval = setInterval(function() {
+			if (typeof data.currentData.condition !== 'undefined') {
+				copyData = data;
+				console.log(copyData)
+				clearInterval(fileInterval)
+			} else {console.log('waiting')}
+		},100)
         // when pressing submit, set textcontent of all divs to none and update with data
         // look at which tabs are active as well
-        displayHours(data.forecastHour)
+
+		// displayHours(data.forecastHour)
     })
     body.addEventListener('click', (e) => {
         activeTab(e);

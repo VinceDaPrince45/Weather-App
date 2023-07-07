@@ -18,7 +18,6 @@ export function extractWeather(location) {
     };
     const promise = getForecast(location).then(
         response => {
-            console.log(response)
             currentData.condition = response.current.condition.text;
             currentData.actualTempF = response.current.temp_f;
             currentData.actualTempC = response.current.temp_c;

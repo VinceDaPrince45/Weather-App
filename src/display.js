@@ -1,4 +1,12 @@
 import { extractWeather } from './data';
+function importAll(r) {
+	let images = {};
+	r.keys().map((item,index) => {images[item.replace('./','')] = r(item); });
+	return images;
+}
+const dayImages = importAll(require.context('./weather_icons/weather/64x64/day',false, /\.(png|jpe?g|svg)$/));
+const nightImages = importAll(require.context('./weather_icons/weather/64x64/night',false, /\.(png|jpe?g|svg)$/));
+
 
 // change display based on events and asynchronous functions from data.js
 
@@ -314,11 +322,8 @@ export function updateDisplay() {
 				const time = data.currentData.time;
 				hour = +time.split(':')[0];
 				// determine whats active and displayHours or displayWeek
-				displayHours(data.forecastHour);
-				displayMain(data.currentData);
-				displayMoreInfo(data.currentData);
+				displayAll(data);
 				clearInterval(fileInterval)
-
 			} else {console.log('waiting')}
 		},100)
 
@@ -343,6 +348,7 @@ function clearAll() {
 	weekForecast.textContent = '';
 	hourForecast.textContent = '';
 	todayInfo.textContent = '';
+	moreInfo.textContent = '';
 }
 
 // pressing weekly or hourly changes bottom data to whatever // add active class
@@ -422,4 +428,15 @@ function displayMoreInfo(object) {
 
 	moreInfo.appendChild(moreinfoContainer);
 }
+
+function displayAll(data) {
+	displayHours(data.forecastHour);
+	displayMain(data.currentData);
+	displayMoreInfo(data.currentData);
+}
+
 // button to switch between fahrenheit and celsius
+
+function determineTemp() {
+	
+}

@@ -13,6 +13,7 @@ const body = document.querySelector('body');
 const weekForecast = document.querySelector('div.week');
 const hourForecast = document.querySelector('div.hour');
 let data;
+let hour;
 const iconList = [
 	{
 		"code" : 1000,
@@ -310,6 +311,8 @@ export function updateDisplay() {
 		var fileInterval = setInterval(function() {
 			if (typeof data.currentData.condition !== 'undefined') {
 				clearAll()
+				const time = data.currentData.time;
+				hour = +time.split(':')[0];
 				// determine whats active and displayHours or displayWeek
 				displayHours(data.forecastHour);
 				displayMain(data.currentData);
@@ -360,8 +363,8 @@ function activeTab(e) {
 
 function displayHours(array) {
     for (let i=0;i < array.length;i++) {
-        const hour = document.createElement('div');
-        hour.classList.add('hour');
+        const hourContainer = document.createElement('div');
+        hourContainer.classList.add('hour');
         const time = document.createElement('div');
         time.textContent = array[i].time;
         const temperature = document.createElement('div');
@@ -370,15 +373,21 @@ function displayHours(array) {
 		let string = array[i].code.toString();
 		let concatenated = 'Code number is ' + string;
         icon.textContent = concatenated
-        hour.append(time,temperature,icon)
-        hour.style.cssText = 'display:grid;grid-template-rows:auto;grid-template;column;1;border:1px solid black';
-        hourForecast.appendChild(hour);
+        hourContainer.append(time,temperature,icon)
+
+        hourContainer.style.cssText = 'display:grid;grid-template-rows:auto;grid-template;column;1;border:1px solid black';
+		if (hour == +array[i].time.split(':')[0]) {
+			hourContainer.style.border = '5px solid blue';
+		}
+        hourForecast.appendChild(hourContainer);
     }
 }
 
 function displayMain(object) {
 	const todayContainer = document.createElement('div');
 	todayContainer.classList.add('today');
+	const dateTime = document.createElement('div');
+	dateTime.textContent = object.date.toString() + ' ' + object.time.toString()
 	const currentCondition = document.createElement('div');
 	currentCondition.textContent = object.condition;
 	const location = document.createElement('div');
@@ -388,9 +397,13 @@ function displayMain(object) {
 	const currentIcon = document.createElement('div');
 	currentIcon.textContent = object.code.toString();
 	
-	todayContainer.append(currentCondition,location,currentTemp,currentIcon);
+	todayContainer.append(currentCondition,location,dateTime,currentTemp,currentIcon);
 	todayContainer.style.cssText = 'display:grid;grid-template-columns:1;border:1px solid black';
 
 	todayInfo.appendChild(todayContainer);
 }	
+
+function displayMoreInfo(object) {
+	
+}
 // button to switch between fahrenheit and celsius

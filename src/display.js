@@ -6,7 +6,7 @@ const submitBtn = document.querySelector('.searchbar > button');
 const location = document.querySelector('input.searchbar');
 const mainContainer = document.querySelector('#main');
 const todayInfo = document.querySelector('.todayinfo');
-const moreInfo = document.querySelector('.moreInfo');
+const moreInfo = document.querySelector('.moreinfo');
 const hoursBtn = document.querySelector('button.hour');
 const weekBtn = document.querySelector('button.week');
 const body = document.querySelector('body');
@@ -316,6 +316,7 @@ export function updateDisplay() {
 				// determine whats active and displayHours or displayWeek
 				displayHours(data.forecastHour);
 				displayMain(data.currentData);
+				displayMoreInfo(data.currentData);
 				clearInterval(fileInterval)
 
 			} else {console.log('waiting')}
@@ -404,6 +405,21 @@ function displayMain(object) {
 }	
 
 function displayMoreInfo(object) {
-	
+	const moreinfoContainer = document.createElement('div');
+	const feelsLike = document.createElement('div');
+	feelsLike.textContent = 'Feels like F: ' + object.feelsLikeF.toString();
+	const humidity = document.createElement('div');
+	humidity.textContent = 'Humidity: ' + object.humidity.toString() + '%';
+	const cloud = document.createElement('div');
+	cloud.textContent = 'Cloud percentage: ' + object.cloud.toString() + '%';
+	const windspeed = document.createElement('div');
+	windspeed.textContent = 'Wind speed: ' + object.windmph.toString() + 'mph';
+	const uv = document.createElement('div');
+	uv.textContent = object.uv;
+
+	moreinfoContainer.append(feelsLike,humidity,cloud,windspeed,uv);
+	moreinfoContainer.style.cssText = 'display:grid;grid-template-columns:1;border:1px solid black';
+
+	moreInfo.appendChild(moreinfoContainer);
 }
 // button to switch between fahrenheit and celsius

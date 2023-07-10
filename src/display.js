@@ -22,6 +22,9 @@ const weekForecast = document.querySelector('div.week');
 const hourForecast = document.querySelector('div.hour');
 let data;
 let hour;
+let date;
+let fahrenheit = true;
+let celsius = false;
 const iconList = [
 	{
 		"code" : 1000,
@@ -318,9 +321,11 @@ export function updateDisplay() {
 		data = extractWeather(location.value);
 		var fileInterval = setInterval(function() {
 			if (typeof data.currentData.condition !== 'undefined') {
+				console.log(data)
 				clearAll()
 				const time = data.currentData.time;
 				hour = +time.split(':')[0];
+				date = data.currentData.date;
 				// determine whats active and displayHours or displayWeek
 				displayAll(data);
 				clearInterval(fileInterval)
@@ -358,11 +363,16 @@ function activeTab(e) {
         // remove active class from both divs and add to target
         weekForecast.classList.remove('active');
         hourForecast.classList.remove('active');
-        weekForecast.style.display = 'none';
-        hourForecast.style.display = 'none';
-
-        e.target.classList.add('active');
-        e.target.style.display = 'block';
+		weekForecast.textContent = '';
+		hourForecast.textContent = '';
+		if (e.target.classList.contains('hour')) {
+			hourForecast.classList.add('active');
+			displayHours(data.forecastHour);
+		};
+		if (e.target.classList.contains('week')) {
+			weekForecast.classList.add('active');
+			displayWeek(data.forecastDays);
+		};
     }
 }
 
@@ -387,6 +397,31 @@ function displayHours(array) {
 			hourContainer.style.border = '5px solid blue';
 		}
         hourForecast.appendChild(hourContainer);
+    }
+}
+
+function displayWeek(array) {
+	for (let i=0;i < array.length;i++) {
+        const weekContainer = document.createElement('div');
+        weekContainer.classList.add('week');
+        const day = document.createElement('div');
+        day.textContent = array[i].date;
+		// put temperature conditional here
+        const maxTemp = document.createElement('div');
+        maxTemp.textContent = `Max F: ${array[i].maxtempf}`;
+		const minTemp = document.createElement('div');
+		minTemp.textContent = `Min F: ${array[i].mintempf}`;
+        const icon = document.createElement('div');
+		let string = array[i].code.toString();
+		let concatenated = 'Code number is ' + string;
+        icon.textContent = concatenated
+        weekContainer.append(day,maxTemp,minTemp,icon);
+
+        weekContainer.style.cssText = 'display:grid;grid-template-rows:auto;grid-template;column;1;border:1px solid black';
+		if (date == array[i].date) {
+			weekContainer.style.border = '5px solid blue';
+		}
+        weekForecast.appendChild(weekContainer);
     }
 }
 
@@ -430,9 +465,14 @@ function displayMoreInfo(object) {
 }
 
 function displayAll(data) {
-	displayHours(data.forecastHour);
 	displayMain(data.currentData);
-	displayMoreInfo(data.currentData);
+	displayMoreInfo(data.currentData); 
+	if (hourForecast.classList.contains('active')) {
+		displayHours(data.forecastHour);
+	}
+	if (weekForecast.classList.contains('active')) {
+		displayWeek(data.forecastDays);
+	}
 }
 
 // button to switch between fahrenheit and celsius

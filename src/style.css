@@ -79,3 +79,8 @@ div.hour.forecast {
 div.week.forecast {
     grid-template-columns:repeat(7,minmax(150px,1fr));
 }
+
+img {
+    margin:auto;
+    width:4em;
+}

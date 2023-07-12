@@ -27,6 +27,7 @@ const celsiusBtn = document.querySelector('button.celsius');
 let data;
 let hour;
 let date;
+let isDay;
 const iconList = [
 	{
 		"code" : 1000,
@@ -404,10 +405,10 @@ function displayHours(array) {
 		if (determineTemp()) {
 			temperature.textContent = `Temp F: ${array[i].tempf}`;
 		} else {temperature.textContent = `Temp C: ${array[i].tempc}`}
-        const icon = document.createElement('div');
-		let string = array[i].code.toString();
-		let concatenated = 'Code number is ' + string;
-        icon.textContent = concatenated
+        const icon = document.createElement('img');
+		if (isDay) {
+			icon.src = dayImages[`${returnIcon(array[i].code)}.png`];
+		} else {icon.src = nightImages[`${returnIcon(array[i].code)}.png`]}
         hourContainer.append(time,temperature,icon)
 
         hourContainer.style.cssText = 'border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
@@ -433,10 +434,10 @@ function displayWeek(array) {
 		if (determineTemp()) {
 			minTemp.textContent = `Min F: ${array[i].mintempf}`;
 		} else {minTemp.textContent = `Min C: ${array[i].mintempc}`}
-        const icon = document.createElement('div');
-		let string = array[i].code.toString();
-		let concatenated = 'Code number is ' + string;
-        icon.textContent = concatenated
+        const icon = document.createElement('img');
+		if (isDay) {
+			icon.src = dayImages[`${returnIcon(array[i].code)}.png`];
+		} else {icon.src = nightImages[`${returnIcon(array[i].code)}.png`]}
         weekContainer.append(day,maxTemp,minTemp,icon);
 
         weekContainer.style.cssText = 'border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
@@ -460,8 +461,10 @@ function displayMain(object) {
 	if (determineTemp()) {
 		currentTemp.textContent = 'Temperature F: ' + object.actualTempF.toString();
 	} else {currentTemp.textContent = 'Temperature C: ' + object.actualTempC.toString()}
-	const currentIcon = document.createElement('div');
-	currentIcon.textContent = object.code.toString();
+	const currentIcon = document.createElement('img');
+	if (isDay) {
+		currentIcon.src = dayImages[`${returnIcon(object.code)}.png`];
+	} else {currentIcon.src = nightImages[`${returnIcon(object.code)}.png`]}
 	
 	todayContainer.append(currentCondition,location,dateTime,currentTemp,currentIcon);
 	todayContainer.style.cssText = 'display:grid;grid-template-columns:1;border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
@@ -482,7 +485,7 @@ function displayMoreInfo(object) {
 	const windspeed = document.createElement('div');
 	windspeed.textContent = 'Wind speed: ' + object.windmph.toString() + 'mph';
 	const uv = document.createElement('div');
-	uv.textContent = object.uv;
+	uv.textContent = 'UV: ' + object.uv.toString();
 
 	moreinfoContainer.append(feelsLike,humidity,cloud,windspeed,uv);
 	moreinfoContainer.style.cssText = 'display:grid;grid-template-columns:1;border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
@@ -491,6 +494,15 @@ function displayMoreInfo(object) {
 }
 
 function displayAll(data) {
+	body.classList.remove('day');
+	body.classList.remove('night');
+	if (data.currentData.isDay == 1) {
+		body.classList.add('day');
+		isDay = true;
+	} else {
+		body.classList.add('night');
+		isDay = false;
+	}
 	displayMain(data.currentData);
 	displayMoreInfo(data.currentData); 
 	if (hourForecast.classList.contains('active')) {
@@ -498,13 +510,6 @@ function displayAll(data) {
 	}
 	if (weekForecast.classList.contains('active')) {
 		displayWeek(data.forecastDays);
-	}
-	body.classList.remove('day');
-	body.classList.remove('night');
-	if (data.currentData.isDay == 1) {
-		body.classList.add('day');
-	} else {
-		body.classList.add('night');
 	}
 }
 
@@ -517,7 +522,7 @@ function determineTemp() {
 function returnIcon(number) {
 	for (const object of iconList) {
 		if (number == object.code) {
-			console.log(object.icon.toString());
+			return object.icon;
 		}
 	}
 }

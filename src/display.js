@@ -20,11 +20,11 @@ const weekBtn = document.querySelector('button.week');
 const body = document.querySelector('body');
 const weekForecast = document.querySelector('div.week');
 const hourForecast = document.querySelector('div.hour');
+const fahrenBtn = document.querySelector('button.fahren');
+const celsiusBtn = document.querySelector('button.celsius');
 let data;
 let hour;
 let date;
-let fahrenheit = true;
-let celsius = false;
 const iconList = [
 	{
 		"code" : 1000,
@@ -326,7 +326,6 @@ export function updateDisplay() {
 				const time = data.currentData.time;
 				hour = +time.split(':')[0];
 				date = data.currentData.date;
-				// determine whats active and displayHours or displayWeek
 				displayAll(data);
 				clearInterval(fileInterval)
 			} else {console.log('waiting')}
@@ -337,7 +336,10 @@ export function updateDisplay() {
 
     })
     body.addEventListener('click', (e) => {
-        activeTab(e);
+		if (data !== undefined) {
+			activeTab(e);
+		}
+		activeTemp(e);
     })
 }
 
@@ -376,6 +378,18 @@ function activeTab(e) {
     }
 }
 
+function activeTemp(e) {
+	if (e.target.classList.contains('fahren') || (e.target.classList.contains('celsius'))) {
+		fahrenBtn.classList.remove('active');
+		celsiusBtn.classList.remove('active');
+		e.target.classList.add('active');
+		if (data !== undefined) {
+			clearAll();
+			displayAll(data);
+		}
+	}
+}
+
 // hourly data is displayed for next 24 hours
 
 function displayHours(array) {
@@ -385,7 +399,9 @@ function displayHours(array) {
         const time = document.createElement('div');
         time.textContent = array[i].time;
         const temperature = document.createElement('div');
-        temperature.textContent = `Temp C: ${array[i].tempc} / Temp F: ${array[i].tempf}`;
+		if (determineTemp()) {
+			temperature.textContent = `Temp F: ${array[i].tempf}`;
+		} else {temperature.textContent = `Temp C: ${array[i].tempc}`}
         const icon = document.createElement('div');
 		let string = array[i].code.toString();
 		let concatenated = 'Code number is ' + string;
@@ -408,9 +424,13 @@ function displayWeek(array) {
         day.textContent = array[i].date;
 		// put temperature conditional here
         const maxTemp = document.createElement('div');
-        maxTemp.textContent = `Max F: ${array[i].maxtempf}`;
+		if (determineTemp()) {
+			maxTemp.textContent = `Max F: ${array[i].maxtempf}`;
+		} else {maxTemp.textContent = `Max C: ${array[i].maxtempc}`}
 		const minTemp = document.createElement('div');
-		minTemp.textContent = `Min F: ${array[i].mintempf}`;
+		if (determineTemp()) {
+			minTemp.textContent = `Min F: ${array[i].mintempf}`;
+		} else {minTemp.textContent = `Min C: ${array[i].mintempc}`}
         const icon = document.createElement('div');
 		let string = array[i].code.toString();
 		let concatenated = 'Code number is ' + string;
@@ -435,7 +455,9 @@ function displayMain(object) {
 	const location = document.createElement('div');
 	location.textContent = object.location;
 	const currentTemp = document.createElement('div');
-	currentTemp.textContent = 'Temperature F: ' + object.actualTempF.toString();
+	if (determineTemp()) {
+		currentTemp.textContent = 'Temperature F: ' + object.actualTempF.toString();
+	} else {currentTemp.textContent = 'Temperature C: ' + object.actualTempC.toString()}
 	const currentIcon = document.createElement('div');
 	currentIcon.textContent = object.code.toString();
 	
@@ -448,7 +470,9 @@ function displayMain(object) {
 function displayMoreInfo(object) {
 	const moreinfoContainer = document.createElement('div');
 	const feelsLike = document.createElement('div');
-	feelsLike.textContent = 'Feels like F: ' + object.feelsLikeF.toString();
+	if (determineTemp()) {
+		feelsLike.textContent = 'Feels like F: ' + object.feelsLikeF.toString();
+	} else {feelsLike.textContent = 'Feels like C: ' + object.feelsLikeC.toString()}
 	const humidity = document.createElement('div');
 	humidity.textContent = 'Humidity: ' + object.humidity.toString() + '%';
 	const cloud = document.createElement('div');
@@ -477,6 +501,9 @@ function displayAll(data) {
 
 // button to switch between fahrenheit and celsius
 
+
 function determineTemp() {
-	
+	if (fahrenBtn.classList.contains('active')) {
+		return true;
+	} else return false;
 }

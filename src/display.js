@@ -1,4 +1,6 @@
 import { extractWeather } from './data';
+import dayImg from './background/1138740.png';
+import nightImg from './background/digital-art-pixel-art-pixels-pixelated-wallpaper.jpg';
 function importAll(r) {
 	let images = {};
 	r.keys().map((item,index) => {images[item.replace('./','')] = r(item); });
@@ -496,6 +498,13 @@ function displayAll(data) {
 	}
 	if (weekForecast.classList.contains('active')) {
 		displayWeek(data.forecastDays);
+	}
+	body.classList.remove('day');
+	body.classList.remove('night');
+	if (data.currentData.isDay == 1) {
+		body.classList.add('day');
+	} else {
+		body.classList.add('night');
 	}
 }
 

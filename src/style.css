@@ -35,3 +35,13 @@ body {
     gap:1em;
     margin-top:1em;
 }
+
+.night {
+    background-image: url('./background/1138740.png');
+    background-size: 100%;
+}
+
+.day {
+    background-image: url('./background/digital-art-pixel-art-pixels-pixelated-wallpaper.jpg');
+    background-size: 100%;
+}

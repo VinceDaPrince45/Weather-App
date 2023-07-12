@@ -410,7 +410,7 @@ function displayHours(array) {
         icon.textContent = concatenated
         hourContainer.append(time,temperature,icon)
 
-        hourContainer.style.cssText = 'display:grid;grid-template-rows:auto;grid-template;column;1;border:1px solid black';
+        hourContainer.style.cssText = 'border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
 		if (hour == +array[i].time.split(':')[0]) {
 			hourContainer.style.border = '5px solid blue';
 		}
@@ -439,7 +439,7 @@ function displayWeek(array) {
         icon.textContent = concatenated
         weekContainer.append(day,maxTemp,minTemp,icon);
 
-        weekContainer.style.cssText = 'display:grid;grid-template-rows:auto;grid-template;column;1;border:1px solid black';
+        weekContainer.style.cssText = 'border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
 		if (date == array[i].date) {
 			weekContainer.style.border = '5px solid blue';
 		}
@@ -464,7 +464,7 @@ function displayMain(object) {
 	currentIcon.textContent = object.code.toString();
 	
 	todayContainer.append(currentCondition,location,dateTime,currentTemp,currentIcon);
-	todayContainer.style.cssText = 'display:grid;grid-template-columns:1;border:1px solid black';
+	todayContainer.style.cssText = 'display:grid;grid-template-columns:1;border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
 
 	todayInfo.appendChild(todayContainer);
 }	
@@ -485,7 +485,7 @@ function displayMoreInfo(object) {
 	uv.textContent = object.uv;
 
 	moreinfoContainer.append(feelsLike,humidity,cloud,windspeed,uv);
-	moreinfoContainer.style.cssText = 'display:grid;grid-template-columns:1;border:1px solid black';
+	moreinfoContainer.style.cssText = 'display:grid;grid-template-columns:1;border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
 
 	moreInfo.appendChild(moreinfoContainer);
 }
@@ -508,11 +508,16 @@ function displayAll(data) {
 	}
 }
 
-// button to switch between fahrenheit and celsius
-
-
 function determineTemp() {
 	if (fahrenBtn.classList.contains('active')) {
 		return true;
 	} else return false;
+}
+
+function returnIcon(number) {
+	for (const object of iconList) {
+		if (number == object.code) {
+			console.log(object.icon.toString());
+		}
+	}
 }

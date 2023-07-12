@@ -3,12 +3,15 @@ body {
     display:grid;
     grid-template-columns: 1;
     grid-template-rows: 1fr 3fr;
+    background-image: url('./background/jvynreqhq9oa1.png');
+    background-size: cover;
 }
 
 #main {
     display:flex;
     flex-direction:row;
-    justify-content: space-between;
+    position:relative;
+    justify-content: space-around;
 }
 
 #forecast {
@@ -16,6 +19,7 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows:auto 1fr;
     overflow:auto;
+    gap:1em;
 }
 
 .hourweek {
@@ -38,10 +42,40 @@ body {
 
 .night {
     background-image: url('./background/1138740.png');
-    background-size: 100%;
+    background-size: cover;
 }
 
 .day {
     background-image: url('./background/digital-art-pixel-art-pixels-pixelated-wallpaper.jpg');
-    background-size: 100%;
+    background-size: cover;
+}
+
+.searchbar.main {
+    background-color: rgba(255,255,255,0.6);
+    border:2px solid black;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    border-radius:5px;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    padding:1em;
+    text-align: center;
+}
+
+div.hour.forecast,
+div.week.forecast {
+    display:grid;
+    gap:1em;
+    grid-template-rows:auto;
+}
+
+div.hour.forecast {
+    grid-template-columns:repeat(8,minmax(150px,1fr));
+}
+
+div.week.forecast {
+    grid-template-columns:repeat(7,minmax(150px,1fr));
 }

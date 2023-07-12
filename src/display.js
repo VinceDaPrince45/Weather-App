@@ -339,9 +339,7 @@ export function updateDisplay() {
 
     })
     body.addEventListener('click', (e) => {
-		if (data !== undefined) {
-			activeTab(e);
-		}
+		activeTab(e);
 		activeTemp(e);
     })
 }
@@ -368,15 +366,22 @@ function activeTab(e) {
         // remove active class from both divs and add to target
         weekForecast.classList.remove('active');
         hourForecast.classList.remove('active');
+		hoursBtn.classList.remove('active');
+		weekBtn.classList.remove('active');
 		weekForecast.textContent = '';
 		hourForecast.textContent = '';
+		e.target.classList.add('active');
 		if (e.target.classList.contains('hour')) {
 			hourForecast.classList.add('active');
-			displayHours(data.forecastHour);
+			if (data !== undefined) {
+				displayHours(data.forecastHour);
+			}
 		};
 		if (e.target.classList.contains('week')) {
 			weekForecast.classList.add('active');
-			displayWeek(data.forecastDays);
+			if (data !== undefined) {
+				displayWeek(data.forecastDays);
+			}
 		};
     }
 }
@@ -413,7 +418,8 @@ function displayHours(array) {
 
         hourContainer.style.cssText = 'border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
 		if (hour == +array[i].time.split(':')[0]) {
-			hourContainer.style.border = '5px solid blue';
+			hourContainer.style.backgroundColor = 'rgba(255,255,255,0.8)';
+			hourContainer.style.border = '5px solid black';
 		}
         hourForecast.appendChild(hourContainer);
     }
@@ -442,7 +448,8 @@ function displayWeek(array) {
 
         weekContainer.style.cssText = 'border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
 		if (date == array[i].date) {
-			weekContainer.style.border = '5px solid blue';
+			weekContainer.style.backgroundColor = 'rgba(255,255,255,0.8)';
+			weekContainer.style.border = '5px solid black';
 		}
         weekForecast.appendChild(weekContainer);
     }
@@ -451,12 +458,15 @@ function displayWeek(array) {
 function displayMain(object) {
 	const todayContainer = document.createElement('div');
 	todayContainer.classList.add('today');
-	const dateTime = document.createElement('div');
-	dateTime.textContent = object.date.toString() + ' ' + object.time.toString()
+	const date = document.createElement('div');
+	date.textContent = object.date.toString();
+	const time = document.createElement('div');
+	time.textContent = object.time.toString();
 	const currentCondition = document.createElement('div');
 	currentCondition.textContent = object.condition;
 	const location = document.createElement('div');
 	location.textContent = object.location;
+	location.style.cssText = 'font-weight:700;font-size:30px';
 	const currentTemp = document.createElement('div');
 	if (determineTemp()) {
 		currentTemp.textContent = 'Temperature F: ' + object.actualTempF.toString();
@@ -466,7 +476,7 @@ function displayMain(object) {
 		currentIcon.src = dayImages[`${returnIcon(object.code)}.png`];
 	} else {currentIcon.src = nightImages[`${returnIcon(object.code)}.png`]}
 	
-	todayContainer.append(currentCondition,location,dateTime,currentTemp,currentIcon);
+	todayContainer.append(location,date,time,currentTemp,currentCondition,currentIcon);
 	todayContainer.style.cssText = 'display:grid;grid-template-columns:1;border:2px solid black;background-color:rgba(255,255,255,0.6);border-radius:5px;padding:1em;text-align:center';
 
 	todayInfo.appendChild(todayContainer);
